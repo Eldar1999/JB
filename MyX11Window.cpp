@@ -48,6 +48,10 @@ void MyX11Window::exec() {
                               &this->swa);
 
     XMapWindow(this->dpy, this->win);
+
+    wmDeleteWindow = XInternAtom(this->dpy, "WM_DELETE_WINDOW", False);
+    XSetWMProtocols(this->dpy, win, &wmDeleteWindow, 1);
+
     XStoreName(this->dpy, this->win, "X11");
 
     this->glc = glXCreateContext(this->dpy, this->vi, nullptr, GL_TRUE);
@@ -73,6 +77,12 @@ void MyX11Window::exec() {
                     MyX11Window::DrawTriangle(this->triangle2D);
                 }
                 glXSwapBuffers(this->dpy, this->win);
+                break;
+
+            case ClientMessage:
+                if (this->xev.xclient.data.l[0] == this->wmDeleteWindow) {
+                    return;
+                }
                 break;
 
             case KeyPress:

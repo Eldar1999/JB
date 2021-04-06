@@ -8,6 +8,7 @@
 #include <iostream>
 #include<X11/X.h>
 #include<X11/Xlib.h>
+#include<X11/Xatom.h>
 #include<GL/gl.h>
 #include<GL/glx.h>
 
@@ -45,6 +46,7 @@ private:
     GLXContext glc{};
     XWindowAttributes gwa{};
     XEvent xev{};
+    Atom wmDeleteWindow;
     MousePos lastMousePos{};
     bool triangleCreated;
     Triangle2D triangle2D{};
